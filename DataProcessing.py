@@ -6,17 +6,8 @@ import sys
 import re
 
 
-# Given a dictionary as input, plot a bar chart using matplotlib
-# Params:
-#       dic     : Input dictionary
-#       title   : Title of the bar chart
-#       color   : Color of the bars
-#       size    : The window size of the bar chart
-#       x_font  : The font family to be used in x-labels. 'Nikosh' is given as default because I'm working with
-#                 Bengali dataset. Note that, to use any font, the font should be included in the font directory in the
-#                 system.
 def plot_from_dictionary(dic, title=None, size=(13.5, 8.5), bottom=0.1, x_font='kalpurush', save_to_device=False):
-    fig = plt.figure(figsize=(13.5, 8.5), dpi= 100)  # Size of /the chart windows
+    fig = plt.figure(figsize=(13.5, 8.5), dpi=100)  # Size of /the chart windows
     fig.subplots_adjust(bottom=bottom)
 
     plt.bar(list(dic.keys()), dic.values(), color='b')  # Bar chart
@@ -232,6 +223,7 @@ class DataProcessor:
                 letterFrequency[letter] = 0
 
         letterFrequency = dict(sorted(letterFrequency.items(), key=lambda item: item[0]))
+        print(letterFrequency)
         return letterFrequency
 
     # Save a dataframe object to csv format
@@ -249,24 +241,31 @@ BengaliLetterList = ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'ঋ', 'এ', '�
                      'ষ', 'স', 'হ', 'ড়', 'ঢ়', 'য়']
 
 # Unigram
-plot_from_dictionary(dp.count_token_frequencies(1, minThreshold=1, start=-30), title='Unigram (Top 30 Results)',
+plot_from_dictionary(dp.count_token_frequencies(1, minThreshold=1, start=-20), title='Top 20 Results of unigram',
                      save_to_device=True)
 
 # Bigram
-plot_from_dictionary(dp.count_token_frequencies(2, minThreshold=1, start=-30), title='Bigram (Top 30 Results)',
+plot_from_dictionary(dp.count_token_frequencies(2, minThreshold=1, start=-20), title='Top 20 Results of birgram',
                      save_to_device=True)
 
 # Trigram
-plot_from_dictionary(dp.count_token_frequencies(3, minThreshold=2, start=-30), title='Trigram (Top 30 Results)',
+plot_from_dictionary(dp.count_token_frequencies(3, minThreshold=2, start=-20), title='Top 20 Results of trigram',
                      bottom=0.3,
                      save_to_device=True)
 
 # Number of words start with a particular letter
 plot_from_dictionary(dp.count_letter_frequencies(BengaliLetterList, count_type='First letter'),
-                     title='Frequencies by first letter', save_to_device=True)
+                     title='Frequency of first letter', save_to_device=True)
 
 # Number of occurrences a letter has in the whole dataset
 plot_from_dictionary(dp.count_letter_frequencies(BengaliLetterList, count_type='All letters'),
-                     title='Frequencies by all letter', save_to_device=True)
+                     title='Frequency of all letter', save_to_device=True)
 
 print(dp.number_of_chars / dp.number_of_words)
+
+# file = open("readme.txt","w+")
+# file.write("Total Number of Characters: " + str(dp.number_of_chars) +"\n")
+# file.write("Total Number of Words: " + str(dp.number_of_words) +"\n")
+# file.write(readme)
+# file.close()
+#
